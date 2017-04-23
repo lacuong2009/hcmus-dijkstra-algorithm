@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <title>Dijkstra algorithm</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- custom CSS after bootstrap -->
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+
+    <script src="assets/js/jquery.min.js" type="application/javascript"></script>
+    <script src="assets/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="js/library/go-debug.js" type="application/javascript"></script>
+    <script src="js/main.js" type="application/javascript"></script>
+    <script src="js/dijkstras.js" type="application/javascript"></script>
+    <script src="js/maps.js" type="application/javascript"></script>
+    <script src="js/common.js" type="application/javascript"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVSVCiGgd4YIOnMXLvtZU3HQfR8QoJ3zQ&callback=initMap"
+            async defer></script>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Dijkstra algorithm</a>
+            </div>
+            <ul class="nav navbar-nav tab">
+                <li><a href="#" class="tablinks" onclick="openTabs(event, 'Maps')" id="defaultOpen">Maps</a></li>
+                <li><a href="#" class="tablinks" onclick="openTabs(event, 'Graph')">Graph</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="Graph" class="tabcontent">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Control</div>
+                        <div class="panel-body">
+                            <div class="" style="padding: 5px">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" value="1" checked>Bidirectional
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="optradio" value="0">Unidirectional
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="name">Number:</label>
+                                        <input type="number" class="form-control" id="numberAuto">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-success" id="autoGenerate">Generate</button>
+                                        <button type="button" class="btn btn-success" id="clear">Clear</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="name">Name:</label>
+                                        <input type="text" class="form-control" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <!--<button type="button" class="btn btn-success" id="removeNode">Remove</button>-->
+                                        <button type="button" class="btn btn-success" id="addNote">Create</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="name">Value:</label>
+                                        <input type="number" class="form-control" id="value">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">From:</label>
+                                        <select  class="form-control" id="from"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">To:</label>
+                                        <select  class="form-control" id="to"></select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-danger" id="linkNode">Link</button>
+                                    </div>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="form-group">
+                                        <label>Source: </label>
+                                        <input type="text" class="form-control" id="source">
+                                        <label>Destination: </label>
+                                        <input type="text" class="form-control" id="destination">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" id="btnRun">RUN</button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label>Result: </label>
+                                    <div class="form-group">
+                                        <textarea rows="8" readonly class="form-control" id="result" style="font-size: x-large; color: #d43f3a; font-weight: bold;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-9">
+                    <div id="sample">
+                        <div id="myDiagramDiv" style="background: white; width: 100%; height: 1000px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Maps" class="tabcontent">
+        <div class="container" >
+            <div class="row" >
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Control</div>
+                            <div class="panel-body">
+                                <div style="padding: 5px">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="from">From: </label>
+                                            <select class="form-control" name="from" id="from_address"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="to">To: </label>
+                                            <select class="form-control" name="to" id="to_address"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-success" id="btnFindPath">Find Path</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div style="width:800px;height:800px; float: right; top: 5px;">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
